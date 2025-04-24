@@ -28,3 +28,51 @@ back -> node index.js
 - Usar CORS para acceder desde el front.
 - Ejecturar el CRUD en el front.
 
+## Imagen de la vista del front
+![front](/front-example.png)
+
+## Estructura de la prueba:
+```bash
+.
+├── back
+│   ├── api
+│   │   ├── controllers
+│   │   │   └── book.controller.js
+│   │   ├── middleware
+│   │   │   ├── book.validator.js
+│   │   │   └── handleBookValidation.js
+│   │   ├── models
+│   │   │   └── book.model.js
+│   │   └── router
+│   │       ├── book.router.js
+│   │       └── index.js
+│   ├── db
+│   │   └── config.js
+│   ├── index.js
+│   ├── package-lock.json
+│   └── package.json
+└── front
+    ├── index.html
+    ├── package-lock.json
+    ├── package.json
+    ├── public
+    │   └── logo-favicon-oper.svg
+    ├── src
+    │   ├── App.vue
+    │   ├── assets
+    │   │   ├── background.jpg
+    │   │   ├── logo.svg
+    │   │   └── vue.svg
+    │   ├── components
+    │   │   ├── BookCard.vue
+    │   │   ├── BookList.vue
+    │   │   ├── Header.vue
+    │   │   └── modalBook.vue
+    │   ├── main.js
+    │   ├── services
+    │   │   ├── bookService.js
+    │   │   └── instance.js
+    │   └── style.css
+    └── vite.config.js
+```
+
