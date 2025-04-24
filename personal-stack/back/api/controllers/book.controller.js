@@ -5,7 +5,8 @@ const getAllBooks = async (req, res) => {
     const books = await Book.findAll();
     return res.status(200).json(books);
   } catch (error) {
-    return res.status(500).json({ error: error, errorMsg: error.message });
+    console.error(error);
+    return res.status(500).json({ errorMsg: error.message });
   }
 };
 
@@ -17,7 +18,8 @@ const getBook = async (req, res) => {
     }
     return res.status(200).json(book);
   } catch (error) {
-    return res.status(500).json({ error: error, errorMsg: error.message });
+    console.error(error);
+    return res.status(500).json({ errorMsg: error.message });
   }
 };
 
@@ -26,7 +28,8 @@ const createBook = async (req, res) => {
     const book = await Book.create(req.body);
     return res.status(201).json(book);
   } catch (error) {
-    return res.status(500).json({ error: error, errorMsg: error.message });
+    console.error(error);
+    return res.status(500).json({ errorMsg: error.message });
   }
 };
 
@@ -42,7 +45,8 @@ const updateBook = async (req, res) => {
     }
     return res.status(200).json({ message: "Libro actualizado" });
   } catch (error) {
-    return res.status(500).json({ error: error, errorMsg: error.message });
+    console.error(error);
+    return res.status(500).json({ errorMsg: error.message });
   }
 };
 
@@ -58,7 +62,8 @@ const deleteBook = async (req, res) => {
     }
     return res.status(200).json({ message: "Libro eliminado" });
   } catch (error) {
-    return res.status(501).json({ error: error, errorMsg: error.message });
+    console.error(error)
+    return res.status(501).json({ errorMsg: error.message });
   }
 };
 

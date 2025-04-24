@@ -2,6 +2,7 @@
   <div class="p-10 overflow-y-scroll grid grid-cols-2 justify-items-center">
     <div class="flex items-center">
       <BookCard
+        v-if="bookSelected.length > 0"
         :id="bookSelected[0]?.id"
         :portada="bookSelected[0]?.portada"
         :titulo="bookSelected[0]?.titulo"
@@ -29,7 +30,7 @@
       </div>
 
       <button
-        class="cursor-pointer inline-flex items-center justify-center px-3 py-2 text-lg font-medium text-white bg-black rounded-lg hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-blue-300 z-20"
+        class="cursor-pointer fixed bottom-32 left-1/2 transform -translate-x-1/2 w-32 inline-flex items-center justify-center px-3 py-2 text-lg font-medium text-white bg-black rounded-lg hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-blue-300 z-20"
         @click="handleModal"
       >
         Añadir libro
