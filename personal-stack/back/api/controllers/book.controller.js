@@ -32,7 +32,7 @@ const createBook = async (req, res) => {
 
 const updateBook = async (req, res) => {
   try {
-    const [updated] = Book.update(req.body, {
+    const [updated] = await Book.update(req.body, {
       where: {
         id: req.params.id,
       },

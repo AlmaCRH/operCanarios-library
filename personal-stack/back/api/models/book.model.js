@@ -6,6 +6,10 @@ const connection = getConnection();
 const Book = connection.define(
   "book",
   {
+    portada: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     titulo: {
       type: DataTypes.STRING,
       allowNull: false,
