@@ -45,7 +45,7 @@
 import { ref, Transition } from "vue";
 import modalBook from "./modalBook.vue";
 import { deleteBook } from "../services/bookService";
-const props = defineProps({
+const props = defineProps({ //esta función nos permitirá recoger los props definidos en el padre
   id: Number,
   portada: String,
   titulo: String,
@@ -54,20 +54,19 @@ const props = defineProps({
   isSelected: Boolean,
 });
 
-const openModal = ref(false);
+const openModal = ref(false); // controla la apertura y cierre del modal
 
-const handleModal = () => {
+const handleModal = () => { // maneja el estado del modal
   openModal.value = !openModal.value;
 };
 
-const emit = defineEmits(["bookUpdated", "bookDeleted"]);
-
-const handleBookUpdated = (updatedBook) => {
+const emit = defineEmits(["bookUpdated", "bookDeleted"]); //emitimos los eventos al padre
+const handleBookUpdated = (updatedBook) => { //maneja la actualización del libro
   emit("bookUpdated", updatedBook);
 };
 
 
-const handleDeleteBook = () => {
+const handleDeleteBook = () => { //maneja la eliminación del libro llamando a la API y emitiendo el evento al padre
   deleteBook(props.id);
   emit("bookDeleted", props.id);
 };

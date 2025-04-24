@@ -48,16 +48,19 @@
 </template>
 
 <script setup>
-import { ref, onMounted, Transition } from "vue";
+import { ref, onMounted, Transition } from "vue"; // para trabajar con reactividad y animaciones
 import { getBooks } from "../services/bookService";
 import BookCard from "./BookCard.vue";
 import modalBook from "./modalBook.vue";
 
-const booksList = ref([]);
-const bookSelected = ref([]);
-const openModal = ref(false);
+const booksList = ref([]); // lista de libros
+const bookSelected = ref([]); // libro seleccionado
+const openModal = ref(false); // controla la apertura y cierre del modal
 
-const selectedBook = (book) => {
+/*
+Selecciona un libro de la lista y lo pasa a la izquierda, quitándolo también de la lista principal.
+*/
+const selectedBook = (book) => { 
   const bookIndex = booksList.value.indexOf(book);
   if (bookIndex !== -1) {
     const retrieveBook = bookSelected.value.pop();
@@ -65,14 +68,17 @@ const selectedBook = (book) => {
     booksList.value.splice(bookIndex, 0, retrieveBook);
   }
 };
+// Maneja el estado del modal
 const handleModal = () => {
   openModal.value = !openModal.value;
 };
 
+// Maneja la actualización del libro seleccionado
 const handleSelectedBookUptaded = (updatedBook) => {
   bookSelected.value[0] = updatedBook;
 };
 
+// Maneja la creación de un nuevo libro, en caso de que no haya en la base de datos y se cree manualmente, pasa directamente a la izquierda
 const handleNewBookCreated = (newBook) => {
   if (bookSelected.value.length === 0 && booksList.value.length === 0) {
     bookSelected.value = [newBook];
@@ -80,14 +86,13 @@ const handleNewBookCreated = (newBook) => {
     booksList.value.push(newBook);
   }
 };
+// Maneja la eliminación del libro seleccionado
 const handleSelectedBookDeleted = () => {
   bookSelected.value = booksList.value.splice(0, 1);
 };
-
+// Obtiene los libros de la base de datos y en caso de que haya asigna el primero a la izquierda, todo esto cuando el componente se monta
 onMounted(async () => {
   booksList.value = await getBooks();
   bookSelected.value = booksList.value.splice(0, 1);
 });
 </script>
-
-<style scoped></style>

@@ -95,7 +95,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import { updateBook, createBook } from "../services/bookService";
-const props = defineProps({
+const props = defineProps({ //esta función nos permitirá recoger los props definidos en el padre
   id: Number,
   portada: String,
   titulo: String,
@@ -105,24 +105,23 @@ const props = defineProps({
   isUpdating: Boolean,
 });
 
-const portadaInput = ref(props.portada);
+const portadaInput = ref(props.portada); //portadaInput es una variable reactiva que se inicializa con el valor de la propiedad portada, así sucesivamente
 const tituloInput = ref(props.titulo);
 const autorInput = ref(props.autor);
 const anioPublicacionInput = ref(props.anioPublicacion);
-const hasErrors = ref(false);
-const emptyFields = ref(false);
+const hasErrors = ref(false); // variable reactiva que se inicializa en false para indicar si hay errores
 
-const ogBookData = ref({
+const ogBookData = ref({ // objeto reactiva que contiene los datos originales del libro
   id: props.id,
   portada: props.portada,
   titulo: props.titulo,
   autor: props.autor,
   anioPublicacion: props.anioPublicacion,
 });
-const emit = defineEmits(["bookUpdated", "bookCreated"]);
+const emit = defineEmits(["bookUpdated", "bookCreated"]); //emitimos los eventos al padre
 
-const handleUpdate = async () => {
-  const updatedbookData = {
+const handleUpdate = async () => { //maneja la actualización del libro
+  const updatedbookData = { // objeto que contiene los nuevos datos del libro
     id: props.id,
     portada: portadaInput.value,
     titulo: tituloInput.value,
@@ -130,16 +129,16 @@ const handleUpdate = async () => {
     anioPublicacion: Number(anioPublicacionInput.value),
   };
 
-  if (isDifferentFromOgData()) {
+  if (isDifferentFromOgData()) { //si los datos son diferentes de los originales se llama a la API para actualizarlos y emitimos el evento al padre
     await updateBook(props.id, updatedbookData);
     emit("bookUpdated", updatedbookData);
-    hasErrors.value = false;
+    hasErrors.value = false; // se establece en false para indicar que no hay errores
   } else {
-    hasErrors.value = true;
+    hasErrors.value = true; // se establece en true para indicar que hay errores
   }
 };
 
-const isDifferentFromOgData = () => {
+const isDifferentFromOgData = () => { //función que comprueba si los datos son diferentes de los originales o si el campo del año corresponde a un número entre 0 y 2030
   return (
     portadaInput.value !== ogBookData.value.portada ||
     tituloInput.value !== ogBookData.value.titulo ||
@@ -150,7 +149,7 @@ const isDifferentFromOgData = () => {
   );
 };
 
-const isAFieldEmpty = () => {
+const isAFieldEmpty = () => { //función que comprueba si alguno de los campos está vacío o si el campo del año corresponde a un número entre 0 y 2030
   return (
     !portadaInput.value?.trim() ||
     !tituloInput.value?.trim() ||
@@ -163,30 +162,34 @@ const isAFieldEmpty = () => {
   );
 };
 
-const handleCreate = async () => {
-  const bookData = {
+const handleCreate = async () => { //maneja la creación de un nuevo libro
+  const bookData = { // objeto que contiene los datos del libro
     portada: portadaInput.value,
     titulo: tituloInput.value,
     autor: autorInput.value,
     anioPublicacion: anioPublicacionInput.value,
   };
-  if (isAFieldEmpty()) {
+  if (isAFieldEmpty()) { //si alguno de los campos está vacío se establece en true para indicar que hay errores
     hasErrors.value = true;
     return;
-  } else {
+  } else { //si los datos son correctos se llama a la API para crear el libro y emitimos el evento al padre
     const newBook = await createBook(bookData);
     emit("bookCreated", newBook);
-    hasErrors.value = false;
+    hasErrors.value = false; // se establece en false para indicar que no hay errores
   }
 };
 
-watch(
-  () => ({ ...props }), // o incluso solo un array de props individuales
-  (newProps) => {
+watch(//watch se utiliza para observar cambios en las propiedades del componente
+  () => ({ ...props }), //se pasa un objeto con las propiedades del componente
+  (newProps) => {  //se pasa una función que se ejecuta cuando las propiedades cambian
+
+    //se actualizan los valores de las variables reactivas
     portadaInput.value = newProps.portada;
     tituloInput.value = newProps.titulo;
     autorInput.value = newProps.autor;
     anioPublicacionInput.value = newProps.anioPublicacion;
+
+    //se actualizan los valores de la variable reactiva
     ogBookData.value = {
       id: newProps.id,
       portada: newProps.portada,
@@ -196,8 +199,8 @@ watch(
     };
   },
   {
-    immediate: true,
-    deep: true,
+    immediate: true, //se ejecuta la función inmediatamente
+    deep: true, //se ejecuta la función de manera recursiva
   }
 );
 </script>
