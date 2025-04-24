@@ -12,8 +12,8 @@
 git clone git@github.com:AlmaCRH/operCanarios-library.git
 cd repo
 ## Instalar las dependencias del front y del backend a continuación.
-cd front -> npm i
-cd back -> npm i
+cd personalStack -> front -> npm i
+cd personalStack -> back -> npm i
 ## Para hacer uso de las variables de enterno del backend:
 back -> touch .env -> y rellenar las siguientes variables que aparecen en el .env.example con sus datos
 ## Para lanzar ambos lados
