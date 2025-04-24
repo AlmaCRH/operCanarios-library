@@ -1,6 +1,7 @@
 const { getConnection } = require("../../db/config");
 const { DataTypes } = require("sequelize");
 
+//Aquí recogemos la conexión a través de la función y definimos las columnas del modelo, usamos allowNull para que sea requerido.
 const connection = getConnection();
 
 const Book = connection.define(
@@ -26,7 +27,7 @@ const Book = connection.define(
     },
   },
   {
-    timestamps: false,
+    timestamps: false, //Esto evita las columnas created_at y updated_at que a menudo dan problemas
   }
 );
 

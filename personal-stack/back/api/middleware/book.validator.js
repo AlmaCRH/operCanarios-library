@@ -1,5 +1,5 @@
 const { body } = require("express-validator");
-
+//Con esta librería podremos comprobar el body y validar que son del tipo correcto, en caso contrario saltará un error con mensaje personalizado.
 const validateBook = [
   body("portada")
     .isString()
