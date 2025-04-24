@@ -38,7 +38,7 @@ const updateBook = async (req, res) => {
       },
     });
     if (!updated) {
-      return res.status(404).json({ error: "No se ha encontrado el libro" });
+      return res.status(404).json({ error: "No hay cambios que actualizar" });
     }
     return res.status(200).json({ message: "Libro actualizado" });
   } catch (error) {
