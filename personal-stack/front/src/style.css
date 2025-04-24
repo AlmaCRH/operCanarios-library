@@ -4,6 +4,7 @@ body {
   margin: 0;
   min-width: 582px;
   min-height: 100vh;
+  background-image: url("./assets/background.jpg");
 }
 
 input::-webkit-outer-spin-button,

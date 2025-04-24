@@ -14,10 +14,8 @@
     </div>
     <div class="flex flex-col justify-center relative">
       <div
-        class="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-white to-transparent pointer-events-none z-10"
-      ></div>
-
-      <div class="overflow-y-auto max-h-[40rem] space-y-4 mb-5 relative z-0">
+        class="overflow-y-auto max-h-[40rem] space-y-4 mb-5 relative z-0 rounded-lg"
+      >
         <BookCard
           v-for="book in booksList"
           v-bind:key="book.id"
@@ -29,9 +27,7 @@
           @click="selectedBook(book)"
         />
       </div>
-      <div
-        class="absolute bottom-16 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent pointer-events-none z-10"
-      ></div>
+
       <button
         class="cursor-pointer inline-flex items-center justify-center px-3 py-2 text-lg font-medium text-white bg-black rounded-lg hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-blue-300 z-20"
         @click="handleModal"
@@ -91,6 +87,4 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

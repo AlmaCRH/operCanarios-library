@@ -1,6 +1,6 @@
 <template>
   <form
-    class="bg-white max-w-md mx-auto flex flex-col items-center rounded-3xl border-2 border-black text-black p-5 space-y-3"
+    class="bg-white max-w-[381px] min-w-[294px] mx-auto flex flex-col items-center rounded-3xl border-2 border-black text-black p-5 space-y-3"
     @submit.prevent
   >
     <div class="relative z-0 w-full mb-5 flex justify-center">
@@ -66,6 +66,8 @@
       >
     </div>
     <p v-if="nothingToChange">No hay ningún campo diferente para actualizar</p>
+    <p v-if="emptyFields">Por favor rellene todos los campos</p>
+
     <div class="space-x-2">
       <button
         v-if="isUpdating"
@@ -109,6 +111,8 @@ const tituloInput = ref(props.titulo);
 const autorInput = ref(props.autor);
 const anioPublicacionInput = ref(props.anioPublicacion);
 const nothingToChange = ref(false);
+const emptyFields = ref(false);
+
 const ogBookData = ref({
   id: props.id,
   portada: props.portada,
@@ -127,25 +131,50 @@ const handleUpdate = async () => {
     anioPublicacion: Number(anioPublicacionInput.value),
   };
 
-  for (const key in updatedbookData) {
-    if (updatedbookData[key] !== ogBookData.value[key]) {
-      await updateBook(props.id, updatedbookData);
-      emit("bookUpdated", updatedbookData);
-      nothingToChange.value = false;
-    }
+  if (isDifferentFromOgData()) {
+    await updateBook(props.id, updatedbookData);
+    emit("bookUpdated", updatedbookData);
+    nothingToChange.value = false;
+  } else {
+    nothingToChange.value = true;
   }
-  
+};
+
+const isDifferentFromOgData = () => {
+  return (
+    portadaInput.value !== ogBookData.value.portada ||
+    tituloInput.value !== ogBookData.value.titulo ||
+    autorInput.value !== ogBookData.value.autor ||
+    anioPublicacionInput.value !== ogBookData.value.anioPublicacion
+  );
+};
+
+const isAFieldEmpty = () => {
+  return (
+    !portadaInput.value?.trim() ||
+    !tituloInput.value?.trim() ||
+    !autorInput.value?.trim() ||
+    !anioPublicacionInput.value === null ||
+    !anioPublicacionInput.value === undefined ||
+    !anioPublicacionInput.value === ""
+  );
 };
 
 const handleCreate = async () => {
-  const updatedbookData = {
+  const bookData = {
     portada: portadaInput.value,
     titulo: tituloInput.value,
     autor: autorInput.value,
     anioPublicacion: anioPublicacionInput.value,
   };
-  await createBook(updatedbookData);
-  emit("bookCreated", updatedbookData);
+  if (isAFieldEmpty()) {
+    emptyFields.value = true;
+    return;
+  } else {
+    await createBook(bookData);
+    emit("bookCreated", bookData);
+    emptyFields.value = false;
+  }
 };
 
 watch(

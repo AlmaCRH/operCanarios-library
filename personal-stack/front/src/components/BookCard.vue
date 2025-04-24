@@ -1,7 +1,7 @@
 <template>
   <div
     :class="{ isSelected: isSelected }"
-    class="max-w-lg w-52 p-6 text-white bg-[#0c4162df] border border-gray-200 rounded-lg shadow-sm text-center flex items-center flex-col mb-3"
+    class="max-w-lg w-52 p-6 text-white bg-[#bbbbbbbe] rounded-lg shadow-sm text-center flex items-center flex-col mb-3"
   >
     <img :src="portada" class="mb-3" />
     <h5 class="text-2xl mb-2">{{ titulo }}</h5>
@@ -66,6 +66,7 @@ const handleBookUpdated = (updatedBook) => {
   emit("bookUpdated", updatedBook);
 };
 
+
 const handleDeleteBook = () => {
   deleteBook(props.id);
   emit("bookDeleted", props.id);
@@ -74,7 +75,7 @@ const handleDeleteBook = () => {
 
 <style scoped>
 .isSelected {
-  background-color: #3478a1df;
+  background-color: #918181;
   height: auto;
   width: 300px;
   display: flex;
