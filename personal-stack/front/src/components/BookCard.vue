@@ -24,23 +24,25 @@
         Eliminar libro
       </a>
     </div>
-    <modalBook
-      v-if="openModal"
-      class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center flex-col z-50"
-      :id="id"
-      :anioPublicacion="anioPublicacion"
-      :portada="portada"
-      :titulo="titulo"
-      :autor="autor"
-      @bookUpdated="handleBookUpdated"
-      :handleModal="handleModal"
-      :isUpdating="true"
-    />
+    <Transition name="fade-rotate">
+      <modalBook
+        v-if="openModal"
+        class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center flex-col z-50"
+        :id="id"
+        :anioPublicacion="anioPublicacion"
+        :portada="portada"
+        :titulo="titulo"
+        :autor="autor"
+        @bookUpdated="handleBookUpdated"
+        :handleModal="handleModal"
+        :isUpdating="true"
+      />
+    </Transition>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, Transition } from "vue";
 import modalBook from "./modalBook.vue";
 import { deleteBook } from "../services/bookService";
 const props = defineProps({
