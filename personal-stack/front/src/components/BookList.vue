@@ -20,6 +20,7 @@
         <BookCard
           v-for="book in booksList"
           v-bind:key="book.id"
+          :id="book.id"
           :portada="book.portada"
           :titulo="book.titulo"
           :autor="book.autor"
@@ -28,14 +29,13 @@
           @click="selectedBook(book)"
         />
       </div>
-
-      <button
-        class="cursor-pointer fixed bottom-32 left-1/2 transform -translate-x-1/2 w-32 inline-flex items-center justify-center px-3 py-2 text-lg font-medium text-white bg-black rounded-lg hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-blue-300 z-20"
-        @click="handleModal"
-      >
-        Añadir libro
-      </button>
     </div>
+    <button
+      class="cursor-pointer fixed bottom-32 left-1/2 transform -translate-x-1/2 w-32 inline-flex items-center justify-center px-3 py-2 text-lg font-medium text-white bg-black rounded-lg hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-blue-300 z-20"
+      @click="handleModal"
+    >
+      Añadir libro
+    </button>
     <Transition name="fade-rotate">
       <modalBook
         v-if="openModal"
@@ -65,7 +65,6 @@ const selectedBook = (book) => {
     booksList.value.splice(bookIndex, 0, retrieveBook);
   }
 };
-
 const handleModal = () => {
   openModal.value = !openModal.value;
 };
@@ -75,9 +74,12 @@ const handleSelectedBookUptaded = (updatedBook) => {
 };
 
 const handleNewBookCreated = (newBook) => {
-  booksList.value.push(newBook);
+  if (bookSelected.value.length === 0 && booksList.value.length === 0) {
+    bookSelected.value = [newBook];
+  } else {
+    booksList.value.push(newBook);
+  }
 };
-
 const handleSelectedBookDeleted = () => {
   bookSelected.value = booksList.value.splice(0, 1);
 };

@@ -65,8 +65,7 @@
         >Año de publicación</label
       >
     </div>
-    <p v-if="nothingToChange">No hay ningún campo diferente para actualizar</p>
-    <p v-if="emptyFields">Por favor rellene todos los campos</p>
+    <p v-if="hasErrors">Tiene un error en alguno de los campos</p>
 
     <div class="space-x-2">
       <button
@@ -110,7 +109,7 @@ const portadaInput = ref(props.portada);
 const tituloInput = ref(props.titulo);
 const autorInput = ref(props.autor);
 const anioPublicacionInput = ref(props.anioPublicacion);
-const nothingToChange = ref(false);
+const hasErrors = ref(false);
 const emptyFields = ref(false);
 
 const ogBookData = ref({
@@ -134,9 +133,9 @@ const handleUpdate = async () => {
   if (isDifferentFromOgData()) {
     await updateBook(props.id, updatedbookData);
     emit("bookUpdated", updatedbookData);
-    nothingToChange.value = false;
+    hasErrors.value = false;
   } else {
-    nothingToChange.value = true;
+    hasErrors.value = true;
   }
 };
 
@@ -145,7 +144,9 @@ const isDifferentFromOgData = () => {
     portadaInput.value !== ogBookData.value.portada ||
     tituloInput.value !== ogBookData.value.titulo ||
     autorInput.value !== ogBookData.value.autor ||
-    anioPublicacionInput.value !== ogBookData.value.anioPublicacion
+    anioPublicacionInput.value !== ogBookData.value.anioPublicacion ||
+    anioPublicacionInput.value > 2030 ||
+    anioPublicacionInput.value < 0
   );
 };
 
@@ -156,7 +157,9 @@ const isAFieldEmpty = () => {
     !autorInput.value?.trim() ||
     !anioPublicacionInput.value === null ||
     !anioPublicacionInput.value === undefined ||
-    !anioPublicacionInput.value === ""
+    !anioPublicacionInput.value === "" ||
+    anioPublicacionInput.value > 2030 ||
+    anioPublicacionInput.value < 0
   );
 };
 
@@ -168,12 +171,12 @@ const handleCreate = async () => {
     anioPublicacion: anioPublicacionInput.value,
   };
   if (isAFieldEmpty()) {
-    emptyFields.value = true;
+    hasErrors.value = true;
     return;
   } else {
-    await createBook(bookData);
-    emit("bookCreated", bookData);
-    emptyFields.value = false;
+    const newBook = await createBook(bookData);
+    emit("bookCreated", newBook);
+    hasErrors.value = false;
   }
 };
 
